@@ -24,7 +24,7 @@ public class ProductTest {
     @Test
     void testExceptionWhenMultiplePromotion(){
 
-        Product product = new Product("연필",1000,100);
+        Product product = new Product("연필",1000,100,"1+1");
 
         LocalDateTime start = LocalDateTime.of(2024,1,1,0,0);
         LocalDateTime end = LocalDateTime.of(2024,1,2,0,0);
