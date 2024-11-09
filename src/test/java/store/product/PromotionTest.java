@@ -1,22 +1,15 @@
 package store.product;
 
 
-import camp.nextstep.edu.missionutils.test.NsTest;
 import java.time.LocalDateTime;
-import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDate;
-
-import static camp.nextstep.edu.missionutils.test.Assertions.assertNowTest;
-import static camp.nextstep.edu.missionutils.test.Assertions.assertSimpleTest;
-import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
-import camp.nextstep.edu.missionutils.DateTimes;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
+
+import store.product.promotion.Promotion;
+import store.product.promotion.PromotionResult;
+import store.product.promotion.PromotionState;
 
 
 

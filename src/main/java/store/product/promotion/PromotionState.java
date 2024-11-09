@@ -1,4 +1,4 @@
-package store.product;
+package store.product.promotion;
 
 public enum PromotionState {
     APPLIED,

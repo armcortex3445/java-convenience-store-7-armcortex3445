@@ -1,4 +1,4 @@
-package store.product;
+package store.product.promotion;
 
 
 public class PromotionResult {

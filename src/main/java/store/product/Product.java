@@ -1,7 +1,7 @@
 package store.product;
 
 import java.time.LocalDateTime;
-import java.util.Date;
+import store.product.promotion.Promotion;
 
 public class Product {
 
