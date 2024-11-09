@@ -1,5 +1,12 @@
 # java-convenience-store-precourse
 
+## Overview
+
+- this project is convenience-store machine
+   - ref : https://github.com/woowacourse-precourse/java-convenience-store-7
+- below is Function list.
+    - [ ] means not tested 
+    - [x] means tested 
 
 ## Promotion
 
