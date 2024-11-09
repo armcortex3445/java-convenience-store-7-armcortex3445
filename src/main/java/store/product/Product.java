@@ -1,14 +1,17 @@
 package store.product;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import store.product.promotion.Promotion;
 
-public class Product {
+public class Product implements Cloneable{
 
+    public static final String NO_PROMOTION = null;
     private String name;
     private int price;
-    private Promotion promotion = null;
-    int count;
+    private Promotion promotion = Promotion.NULL;
+    private String promotionName = NO_PROMOTION;
+    private int count;
 
     public  Product(){
 
@@ -17,14 +20,20 @@ public class Product {
     public Product(Product src){
         this.name = src.name;
         this.price = src.price;
-        this.promotion = src.promotion;
         this.count = src.count;
+        if(src.promotion != Promotion.NULL) {
+            this.promotion = src.promotion.clone();
+            this.promotionName = src.promotionName;
+        }
     }
 
-    public Product(String name, int price, int count){
+    public Product(String name, int price, int count,String promotionName){
         this.name = name;
         this.price = price;
         this.count = count;
+        if(promotionName != Product.NO_PROMOTION){
+            this.promotionName = promotionName;
+        }
     }
 
     public int getPrice() {
@@ -39,15 +48,33 @@ public class Product {
         return count;
     }
 
+    public String getPromotionName(){
+        return promotionName;
+    }
+
     public void setPromotion(String name, LocalDateTime start , LocalDateTime end, int conditionCount){
-        if(this.promotion != null){
+        if(this.promotion != Promotion.NULL){
             throw new IllegalStateException("Promotion is already exist.");
+        }
+
+        if(!this.promotionName.equals(name)){
+            throw new IllegalStateException("Promotion is not correspond to promotionName field");
         }
         this.promotion = new Promotion(name,start,end,conditionCount);
     }
 
+    public void setPromotion(Promotion promotion){
+        if(this.promotion != Promotion.NULL){
+            throw new IllegalStateException("Promotion is already exist.");
+        }
+        if(promotion == Promotion.NULL){
+            return;
+        }
+        this.promotion = new Promotion(promotion);
+    }
+
     public boolean isPromotionActive(LocalDateTime today){
-        if(this.promotion == null){
+        if(this.promotion == Promotion.NULL){
             return false;
         }
         return this.promotion.isActive(today);
@@ -58,5 +85,22 @@ public class Product {
         return this.count > zero;
     }
 
+    @Override
+    public Product clone(){
+        try {
+            Product cloned = (Product) super.clone();
+            cloned.clonePromotion(this);
+            return cloned;
+        }catch (CloneNotSupportedException e){
+            throw new AssertionError("Cloning not supported");
+        }
+
+    }
+
+    public void clonePromotion(Product origin){
+        if(origin.promotion != Promotion.NULL) {
+            this.promotion = origin.promotion;
+        }
+    }
 
 }

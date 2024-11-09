@@ -12,6 +12,17 @@
 - [x] Product has only one promotion, multiple promotion is not applied one product
 - 동일 상품에 여러 프로모션이 적용되지 않는다.
 
+- [x] Promotion is applied to target Product
+- N+1 프로모션이 각각 지정된 상품에 적용된다.
+   - [x] find product by name with options that find promoted or non-promoted or both 
+
+
+## File Input/Output 
+- [ ] Load Product List and Promotion List from File resource by using File IO.
+- 구현에 필요한 상품 목록과 행사 목록을 파일 입출력을 통해 불러온다.
+    - [x] create Product from string with resource File format
+    - [x] crate Promotion from String with resource File format
+
 
 ## Utils
 

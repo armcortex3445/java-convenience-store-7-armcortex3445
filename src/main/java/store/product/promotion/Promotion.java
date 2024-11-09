@@ -1,15 +1,24 @@
 package store.product.promotion;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import store.io.PromotionFile;
+import store.product.Product;
+import store.utils.ExceptionFactory;
+import store.utils.ExceptionType;
+import store.utils.Transformer;
 
-public class Promotion {
+public class Promotion implements Cloneable {
+
+    public static final Promotion NULL = null;
+
     private String name;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     private int conditionCount;
     private int itemCount; // need to consider
 
-    static final int RETURN_COUNT = 1;
+    public static final int RETURN_COUNT = 1;
 
     public Promotion(){};
 
@@ -72,14 +81,20 @@ public class Promotion {
 
     }
 
+    public String getStartDate(){
+        return this.startDate.format(PromotionFile.DATE_TIME_FORMATTER);
+    }
+
+    public String getEndDate(){
+        return this.endDate.format(PromotionFile.DATE_TIME_FORMATTER);
+    }
+
+    public String getName() { return this.name;}
 
     public int getConditionCount(){
         return this.conditionCount;
     }
 
-    public int getRETURN_COUNT(){
-        return this.conditionCount;
-    }
 
     public boolean isEqualToEdgeDate(LocalDateTime today){
         return today.isEqual(this.startDate) || today.isEqual(this.endDate);
@@ -89,4 +104,22 @@ public class Promotion {
         return today.isAfter(this.startDate) && today.isBefore(this.endDate);
     }
 
+    @Override
+    public Promotion clone() {
+        try {
+             return (Promotion) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError("Cloning not supported");
+        }
+    }
+
+    static public Promotion createPromotion(String name, LocalDateTime startDate, LocalDateTime endDate, int conditionCount){
+        return new Promotion(name,startDate,endDate,conditionCount);
+    }
+
+    static public void validateReturnCount(String returnCount){
+        if(Transformer.parsePositiveInt(returnCount) !=(Promotion.RETURN_COUNT)){
+            ExceptionFactory.throwIllegalArgumentException(ExceptionType.INVALID_RETURN_PROMOTION);
+        }
+    }
 }
