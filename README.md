@@ -32,6 +32,8 @@
 - throw Exception with printing exception message
     - [x] print Exception Message containing "[error]"
     - [x] throw IllegalArgumentException exception
+    - [ ] throw IllegalStateException exception
+    - [ ] deliver caused Exception
 
 ### Transforming logic
 
