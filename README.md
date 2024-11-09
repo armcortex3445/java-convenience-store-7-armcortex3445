@@ -11,3 +11,30 @@
 
 - [x] Product has only one promotion, multiple promotion is not applied one product
 - 동일 상품에 여러 프로모션이 적용되지 않는다.
+
+
+## Utils
+
+### Validation relation
+
+- provide validation logic
+    - [x] validate string whether string is numeric or not
+    - [x] validate string whether numeric string is out of Int type range or not
+    - [x] validate string whether numeric string is positive or not
+    - [x] validate string whether string is blank or not
+    - [x] validate number whether number is divisible by specific number or not
+    - [x] validate number whether number is out of specific range or not
+    - [x] validate list whether list is equal to specific size or not
+    - [x] validate list whether list has duplicated element
+
+### Throwing Exception logic
+
+- throw Exception with printing exception message
+    - [x] print Exception Message containing "[error]"
+    - [x] throw IllegalArgumentException exception
+
+### Transforming logic
+
+- provide type transform logic
+   - [ ] transform Numeric String to Positive Integer
+   - [ ] transform Integer List to concatenated String
