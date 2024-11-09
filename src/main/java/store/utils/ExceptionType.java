@@ -13,7 +13,16 @@ public enum ExceptionType {
     DUPLICATED_ELEMENTS("list includes duplicated elements"),
 
     //STRING related
-    EMPTY_STRING("string is empty");
+    EMPTY_STRING("string is empty"),
+
+    //Model
+    INTERNAL_ERROR("Internal logic error"),
+
+    //Promotion
+    INVALID_RETURN_PROMOTION("return should be 1"),
+
+    //LocalDate
+    INVALID_DATE_STRING("String is not able to pared to LocalDate/LocalDateTime");
 
     private final String message;
 
