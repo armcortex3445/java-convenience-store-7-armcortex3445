@@ -10,6 +10,8 @@ public enum ProductFile {
     private String columName;
     private Class<?> type;
 
+    static final public String COLUMN_DELIMITER = ",";
+
     private ProductFile(int colunmIdx, String columName, Class<?> type){
         this.columName = columName;
         this.columnIdx = colunmIdx;

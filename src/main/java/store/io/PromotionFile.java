@@ -15,6 +15,7 @@ public enum PromotionFile {
     private Class<?> type;
 
     static final public DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    static final public String COLUMN_DELIMITER = ",";
 
     private PromotionFile(int colunmIdx, String columName, Class<?> type){
         this.columName = columName;
