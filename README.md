@@ -69,6 +69,11 @@
     - [x] validate list whether list is equal to specific size or not
     - [x] validate list whether list has duplicated element
     - [ ] validate String whether string is able to encoded to utf-8 or not
+    - [ ] validate File whether File size is too large or not
+    - [ ] validate File whether File is readable by java.io.file
+    - [ ] validate File whether each line is validated based on format
+    - [ ] validate File whether each column of line is validated based on format
+
 
 ### Throwing Exception logic
 

@@ -1,5 +1,6 @@
 package store.utils;
 
+import java.io.File;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
@@ -86,5 +87,39 @@ public class Validator {
         Validator.validateIntRange(rawNumber);
         int number = Integer.parseInt(rawNumber);
         Validator.validatePositiveNumber(number);
+    }
+
+    public static void validateFile(String filePath){
+        try {
+            File file = new File(filePath);
+        }catch (Exception e){
+            ExceptionFactory.throwIllegalArgumentException(ExceptionType.READ_FILE_FAIL);
+        }
+    }
+
+    public static void validateFileSize(String filePath){
+        final int maxSize = 1*1024*1024; // 1MB
+        validateFile(filePath);
+
+        File file = new File(filePath);
+        if(file.length() > maxSize){
+            ExceptionFactory.throwIllegalArgumentException(ExceptionType.TOO_LARGE_FILE);
+        }
+    }
+    public static void validateEachLine(List<String> lines,String columnDelimiter,int columnCount){
+        for(String line : lines){
+            validateColumn(line,columnDelimiter,columnCount);
+        }
+    }
+
+    public static void validateColumn(String promotion, String delimiter,int columnCount){
+        List<String> columns = List.of(promotion.split(delimiter));
+        if(columns.size() != columnCount){
+            ExceptionFactory.throwIllegalArgumentException(ExceptionType.INVALID_FILE_FORMAT);
+        }
+        for(String column : columns){
+            Validator.validateBlankString(column);
+            Validator.validateStringEncoded(column);
+        }
     }
 }
