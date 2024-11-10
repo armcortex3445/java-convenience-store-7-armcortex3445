@@ -78,13 +78,35 @@ public class PromotionTest {
         Promotion promotion = new Promotion("2+1 할인",start,end,conditionCount);
 
         int count1 = 4;
-        PromotionResult result1 = promotion.getPromotionResult(count1);
+        PromotionResult result1 = promotion.estimate("상품명",count1);
         assertThat(result1.getState()).isEqualTo(PromotionState.MORE_NEEDED);
         assertThat(result1.getAppliedItemCount()).isEqualTo(1);
         assertThat(result1.getNeededItemCount()).isEqualTo(2);
 
-        assertThat(promotion.getPromotionResult(3).getState()).isEqualTo(PromotionState.APPLIED);
+        assertThat(promotion.estimate("상품명",3).getState()).isEqualTo(PromotionState.APPLIED);
+    }
 
+    @DisplayName("물건 구매에 따른 프로모션 결과를 추정한다")
+    @Test
+    void testEstimatePromotionResult(){
+        int conditionCount = 2;
+        LocalDateTime start = LocalDateTime.of(2024,12,1,0,0);
+        LocalDateTime end = LocalDateTime.of(2024,12,31,23,59);
+        Promotion promotion = new Promotion("2+1 할인",start,end,conditionCount);
+
+        PromotionResult promotionResult = promotion.estimate("상품명",10);
+        assertThat(promotionResult.getState())
+                .as("프로모션 적용보다 물건을 덜 가져오면, 물건이 더 필요한 상태임을 나타낸다.")
+                .isEqualTo(PromotionState.MORE_NEEDED);
+        assertThat(promotionResult.getNeededItemCount())
+                .as("프로모션 적용보다 물건을 덜 가져오면, 프로모션 적용을 위해 필요한 물건 개수를 나타낸다")
+                .isEqualTo(2);
+
+        promotionResult = promotion.estimate("상품명",6);
+        assertThat(promotionResult.getState())
+                .isEqualTo(PromotionState.APPLIED);
+        assertThat(promotionResult.getNeededItemCount())
+                .isEqualTo(0);
     }
 
 

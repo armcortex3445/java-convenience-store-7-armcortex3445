@@ -63,12 +63,7 @@ public class Promotion implements Cloneable {
         return neededItem;
     }
 
-    public PromotionResult getPromotionResult(int count){
-        /*TODO
-         *  - 입력값 양수 점검 필요
-         *  - 함수 리팩토링 필요(라인 수 조절, 함수 쪼개기, 클래스 책임 고려)
-         * */
-
+    public PromotionResult estimate(String productName, int count){
         int applyItemCount =  this.checkReturn(count);
         int neededItemCount = this.checkNeededItem(count);;
         PromotionState state = PromotionState.APPLIED;
@@ -76,8 +71,7 @@ public class Promotion implements Cloneable {
         if(neededItemCount > 0){
             state = PromotionState.MORE_NEEDED;
         }
-
-        return new PromotionResult(state,applyItemCount,neededItemCount);
+        return new PromotionResult(state,applyItemCount,neededItemCount,productName);
 
     }
 

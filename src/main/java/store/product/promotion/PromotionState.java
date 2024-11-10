@@ -4,5 +4,6 @@ public enum PromotionState {
     APPLIED,
     MORE_NEEDED,
 
-    NONE;
+    NO_PROMOTION,
+    INSUFFICIENT;
 }
