@@ -3,6 +3,9 @@ package store.product;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import store.product.promotion.Promotion;
+import store.utils.ExceptionFactory;
+import store.utils.ExceptionType;
+import camp.nextstep.edu.missionutils.DateTimes;
 
 public class Product implements Cloneable{
 
@@ -105,6 +108,35 @@ public class Product implements Cloneable{
         if(origin.promotion != Promotion.NULL) {
             this.promotion = origin.promotion;
         }
+    }
+
+    public Receipt buy(int count){
+        decreaseCount(count);
+
+        return new Receipt(name,
+                this.calculateTotalPrice(count),
+                this.calculateDiscountPrice(count));
+
+    }
+
+    private void decreaseCount(int count){
+        if(count > this.count){
+            ExceptionFactory.throwIllegalStateException(ExceptionType.INTERNAL_ERROR);
+        }
+        this.count -=count;
+    }
+
+    private int calculateTotalPrice(int count){
+        return this.price*count;
+    }
+
+    private int calculateDiscountPrice(int count){
+        int result = 0;
+        if(isPromotionActive(DateTimes.now())){
+            result = this.promotion.checkReturn(count) * this.price;
+        }
+
+        return result;
     }
 
 }

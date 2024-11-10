@@ -1,10 +1,14 @@
 package store.product;
 
 
+import static camp.nextstep.edu.missionutils.test.Assertions.assertNowTest;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
+import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import store.product.promotion.Promotion;
@@ -68,5 +72,28 @@ public class ProductTest {
         product.setPromotion("1+1",start,end,1);
 
         assertThatThrownBy(()->product.setPromotion("1+1",start,end,1)).isInstanceOf(IllegalStateException.class);
+    }
+
+    @DisplayName("상품 구매시, 수량을 차감하고 영수증을 반환한다")
+    @Test
+    void testApplyPromotionToOnlyPromotionProduct(){
+        assertNowTest(()->{
+            Product product = new Product("연필",1000,100,"1+1");
+
+            LocalDateTime start = LocalDateTime.of(2024,1,1,0,0);
+            LocalDateTime end = LocalDateTime.of(2024,12,31,0,0);
+
+            product.setPromotion("1+1",start,end,1);
+
+            Receipt receipt = product.buy(10);
+
+            assertThat(receipt.getProductName()).isEqualTo("연필");
+            assertThat(receipt.getActualPrice()).isEqualTo(1000*10);
+            assertThat(receipt.getDisCountPrice()).isEqualTo(5000);
+            assertThat(product.getCount()).isEqualTo(100-10);
+
+        },LocalDateTime.of(2024,1,2,0,0));
+
+
     }
 }
