@@ -8,6 +8,16 @@
     - [ ] means not tested 
     - [x] means tested 
 
+## Store Data
+
+### Product
+- [x] represent Product
+- [x] apply promotion
+- [x] check whether promotion is active or not based on date data
+
+### Promotion
+
+
 ## Store Logic
 - [ ] find product by name with options that find promoted or non-promoted or both
 - [ ] access product data of repository by finding product
@@ -26,6 +36,11 @@
 - [x] Promotion is applied to target Product
 - N+1 프로모션이 각각 지정된 상품에 적용된다.
 
+
+- [ ] promotion should be applied to only promoted products
+- 프로모션 혜택은 프로모션 재고 내에서만 적용할 수 있다.
+- [ ] 
+- 프로모션 기간 중이라면 프로모션 재고를 우선적으로 차감하며, 프로모션 재고가 부족할 경우에는 일반 재고를 사용한다.
 
 ## File Input/Output 
 - [ ] Load Product List and Promotion List from File resource by using File IO.

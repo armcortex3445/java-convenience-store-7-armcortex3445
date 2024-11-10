@@ -52,6 +52,10 @@ public class Product implements Cloneable{
         return promotionName;
     }
 
+    public Promotion getPromotion(){
+        return promotion.clone();
+    }
+
     public void setPromotion(String name, LocalDateTime start , LocalDateTime end, int conditionCount){
         if(this.promotion != Promotion.NULL){
             throw new IllegalStateException("Promotion is already exist.");

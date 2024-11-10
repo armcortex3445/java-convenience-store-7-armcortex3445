@@ -1,11 +1,13 @@
 package store.product;
 
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import store.product.promotion.Promotion;
 
 
 /*프로모션 할인
@@ -19,6 +21,40 @@ import org.junit.jupiter.api.Test;
 
 
 public class ProductTest {
+
+    @DisplayName("상품을 표현한다")
+    @Test
+    void testProductRepresent(){
+        Product product = new Product("연필",1000,100,"1+1");
+
+        assertThat(product.getCount()).isEqualTo(100);
+        assertThat(product.getPromotionName()).isEqualTo("1+1");
+        assertThat(product.getName()).isEqualTo("연필");
+        assertThat(product.getPrice()).isEqualTo(1000);
+    }
+
+    @DisplayName("상품에 프로모션을 적용할 수 있다.")
+    @Test
+    void testApplyPromotion(){
+        Product product = new Product("연필",1000,100,"1+1");
+        Promotion promotion = new Promotion("1+1",LocalDateTime.of(2024,1,1,0,0),LocalDateTime.of(2024,1,12,0,0),10);
+
+        product.setPromotion(promotion);
+        assertThat(product.getPromotion().getName()).isEqualTo(promotion.getName());
+        assertThat(product.getPromotion().getConditionCount()).isEqualTo(promotion.getConditionCount());
+        assertThat(product.getPromotion().getStartDate()).isEqualTo(promotion.getStartDate());
+        assertThat(product.getPromotion().getEndDate()).isEqualTo(promotion.getEndDate());
+    }
+
+    @DisplayName("날짜를 통해 상품의 프로모션 적용을 확인할 수 있다.")
+    @Test
+    void testCheckPromotionActive(){
+        Product product = new Product("연필",1000,100,"1+1");
+        Promotion promotion = new Promotion("1+1",LocalDateTime.of(2024,1,1,0,0),LocalDateTime.of(2024,1,12,0,0),10);
+
+        product.setPromotion(promotion);
+        assertThat(product.isPromotionActive(LocalDateTime.of(2024,1,1,9,0,0))).isEqualTo(true);
+    }
 
     @DisplayName("동일 상품에 여러 프로모션이 적용되지 않는다.")
     @Test
