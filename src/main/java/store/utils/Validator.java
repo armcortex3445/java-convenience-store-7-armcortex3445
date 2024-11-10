@@ -1,6 +1,7 @@
 package store.utils;
 
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -41,6 +42,14 @@ public class Validator {
             ExceptionFactory.throwIllegalArgumentException(ExceptionType.EMPTY_STRING);
         }
 
+    }
+
+    public static void validateStringEncoded(String string){
+        try {
+            byte[] utf8Bytes = string.getBytes(StandardCharsets.UTF_8);
+        } catch (Exception e) {
+            ExceptionFactory.throwIllegalArgumentException(ExceptionType.DISABLE_ENCODED_TO_UTF8);
+        }
     }
 
    public static void validateDivisible(int source, int divider){

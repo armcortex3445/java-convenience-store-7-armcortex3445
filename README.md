@@ -68,6 +68,7 @@
     - [x] validate number whether number is out of specific range or not
     - [x] validate list whether list is equal to specific size or not
     - [x] validate list whether list has duplicated element
+    - [ ] validate String whether string is able to encoded to utf-8 or not
 
 ### Throwing Exception logic
 
