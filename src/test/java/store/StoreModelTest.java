@@ -1,9 +1,9 @@
 package store;
 
 /*프로모션 할인
-- [ ]N+1 프로모션이 각각 지정된 상품에 적용된다.
-- [model]프로모션 혜택은 프로모션 재고 내에서만 적용할 수 있다.
-- [model]프로모션 기간 중이라면 프로모션 재고를 우선적으로 차감하며, 프로모션 재고가 부족할 경우에는 일반 재고를 사용한다.
+- [x]N+1 프로모션이 각각 지정된 상품에 적용된다.
+- [x]프로모션 혜택은 프로모션 재고 내에서만 적용할 수 있다.
+- [x]프로모션 기간 중이라면 프로모션 재고를 우선적으로 차감하며, 프로모션 재고가 부족할 경우에는 일반 재고를 사용한다.
 - [model]프로모션 적용이 가능한 상품에 대해 고객이 해당 수량보다 적게 가져온 경우, 필요한 수량을 추가로 가져오면 혜택을 받을 수 있음을 안내한다.
 - [view]프로모션 재고가 부족하여 일부 수량을 프로모션 혜택 없이 결제해야 하는 경우, 일부 수량에 대해 정가로 결제하게 됨을 안내한다.
 * */
@@ -29,12 +29,16 @@ package store;
 
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static camp.nextstep.edu.missionutils.test.Assertions.assertNowTest;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import store.product.Product;
+import store.product.PurchaseRequest;
+import store.product.Receipt;
 import store.product.promotion.Promotion;
 
 public class StoreModelTest {
@@ -131,4 +135,62 @@ public class StoreModelTest {
         assertThat(nonPromotedCoke.getPromotionName()).isEqualTo(Product.NO_PROMOTION);
         assertThat(nonPromotedCoke.getCount()).isEqualTo(1);
     }
+
+    @DisplayName("프로모션 혜택은 프로모션 재고 내에서만 적용할 수 있다.")
+    @Test
+    void testApplyPromotionToOnlyPromotionProduct(){
+        assertNowTest(()-> {
+            String promotionList = "name,buy,get,start_date,end_date\n"
+                    + "탄산2+1,2,1,2024-01-01,2024-12-31";
+            String productList = "name,price,quantity,promotion\n"
+                    + "콜라,1000,10,탄산2+1\n"
+                    + "콜라,1000,10,null";
+
+            List<Product> products = StoreModel.createProducts(productList);
+            List<Promotion> promotions = StoreModel.createPromotions(promotionList);
+
+            StoreModel storeModel = new StoreModel();
+            storeModel.initStore(products, promotions);
+
+            PurchaseRequest request = new PurchaseRequest("콜라", 6);
+
+            Receipt receipt = storeModel.buyProduct(request);
+            assertThat(receipt.getActualPrice()).isEqualTo(6000);
+            assertThat(receipt.getDisCountPrice()).isEqualTo(2000);
+
+            Product productPromoted = storeModel.findOneProduct("콜라",true);
+            Product productNonPromoted = storeModel.findOneProduct("콜라",false);
+            assertThat(productPromoted.getCount()).isEqualTo(4);
+            assertThat(productNonPromoted.getCount()).isEqualTo(10);
+        }, LocalDate.of(2024, 2, 1).atStartOfDay());
+
+
+    }
+
+    @DisplayName("프로모션 기간 중이라면 프로모션 재고를 우선적으로 차감하며, 프로모션 재고가 부족할 경우에는 일반 재고를 사용한다.")
+    @Test
+    void testSellPromotedProductFirst(){
+        String promotionList = "name,buy,get,start_date,end_date\n"
+                + "탄산2+1,2,1,2024-01-01,2024-12-31";
+        String productList = "name,price,quantity,promotion\n"
+                + "콜라,1000,10,탄산2+1\n"
+                + "콜라,1000,10,null";
+
+        List<Product> products = StoreModel.createProducts(productList);
+        List<Promotion> promotions = StoreModel.createPromotions(promotionList);
+
+        StoreModel storeModel = new StoreModel();
+        storeModel.initStore(products, promotions);
+
+        PurchaseRequest request = new PurchaseRequest("콜라", 11);
+
+        Receipt receipt = storeModel.buyProduct(request);
+
+        Product productPromoted = storeModel.findOneProduct("콜라",true);
+        Product productNonPromoted = storeModel.findOneProduct("콜라",false);
+        assertThat(productPromoted.getCount()).isEqualTo(0);
+        assertThat(productNonPromoted.getCount()).isEqualTo(9);
+    }
+
+
 }

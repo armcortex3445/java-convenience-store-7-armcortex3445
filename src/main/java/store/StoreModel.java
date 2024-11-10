@@ -8,12 +8,15 @@ import java.util.stream.Collectors;
 import store.io.ProductFile;
 import store.io.PromotionFile;
 import store.product.Product;
+import store.product.PurchaseRequest;
+import store.product.Receipt;
 import store.product.promotion.Promotion;
 import store.utils.ExceptionFactory;
 import store.utils.ExceptionType;
 import store.utils.Transformer;
 
 public class StoreModel {
+    static private final  Product NOT_FOUND = null;
     private final List<Product> productRepository;
     private final HashMap<String,Promotion> promotionHashMap;
 
@@ -179,6 +182,67 @@ public class StoreModel {
         }
         return promotions;
     }
+
+    public List<Receipt> buyProducts(List<PurchaseRequest> purchaseRequests){
+        List<Receipt> receipts = new ArrayList<>();
+        for(PurchaseRequest request : purchaseRequests){
+            receipts.add(buyProduct(request));
+        }
+        return receipts;
+    }
+
+    public Receipt buyProduct(PurchaseRequest request){
+        Receipt resultPromoted = tryBuyProductPromoted(request);
+        Receipt resultNonPromoted = tryBuyProductNonPromoted(request);
+
+        return combineReceipt(resultPromoted,resultNonPromoted);
+    }
+
+    private Receipt combineReceipt(Receipt promoted, Receipt nonPromoted) {
+        final Receipt nullReceipt = null;
+        if (promoted == nullReceipt && nonPromoted == nullReceipt) {
+            ExceptionFactory.throwIllegalStateException(ExceptionType.INTERNAL_ERROR);
+        }
+        if (promoted == nullReceipt){
+            return nonPromoted;
+        }
+        if(nonPromoted == nullReceipt){
+            return promoted;
+            }
+        return promoted.combine(nonPromoted);
+    }
+
+    private Receipt tryBuyProductPromoted(PurchaseRequest request){
+        boolean isPromoted = true;
+        Product product = this.findOneOriginProduct(request.getProductName(),isPromoted);
+        if(product == NOT_FOUND){
+            return Receipt.createEmptyRecipt(request.getProductName());
+        }
+        if(product.getCount() < request.getCountPurchased()){
+            int buyCount = product.getCount();
+            return buyProduct(product,buyCount,request);
+        }
+        return buyProduct(product,request.getCountPurchased(),request);
+    }
+
+
+    private Receipt tryBuyProductNonPromoted(PurchaseRequest request){
+        boolean isPromoted = false;
+        Product product = this.findOneOriginProduct(request.getProductName(),isPromoted);
+        if(product == NOT_FOUND){
+            return Receipt.createEmptyRecipt(request.getProductName());
+        }
+        if(product.getCount() < request.getCountPurchased()){
+            ExceptionFactory.throwIllegalStateException(ExceptionType.INTERNAL_ERROR);
+        }
+        return buyProduct(product,request.getCountPurchased(),request);
+    }
+
+    private Receipt buyProduct(Product product, int buyCount, PurchaseRequest request){
+        request.decreaseCount(buyCount);
+        return product.buy(buyCount);
+    }
+
 
 
 }
