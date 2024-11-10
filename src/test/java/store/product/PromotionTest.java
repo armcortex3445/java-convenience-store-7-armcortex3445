@@ -49,26 +49,6 @@ public class PromotionTest {
 
     }
 
-    @DisplayName(" 날짜가 프로모션 기간 내에 포함된 경우에만 할인을 적용한다.")
-    @Test
-    void testPromotionActive(){
-        int conditionCount = 2;
-        LocalDateTime start = LocalDateTime.of(2024,12,1,0,0);
-        LocalDateTime end = LocalDateTime.of(2024,12,31,23,59);
-        Promotion promotion = new Promotion("2+1 할인",start,end,conditionCount);
-
-
-        LocalDateTime invalid = LocalDateTime.of(2024,11,1,0,0);
-        LocalDateTime valid = LocalDateTime.of(2024,12,2,0,0);
-
-        assertThat(promotion.isActive(start)).isEqualTo(true);
-        assertThat(promotion.isActive(end)).isEqualTo(true);
-
-        assertThat(promotion.isActive(invalid)).isEqualTo(false);
-        assertThat(promotion.isActive(valid)).isEqualTo(true);
-
-    }
-
     @DisplayName(" 날짜가 프로모션 기간 내에 포함되는지 알려준다.")
     @Test
     void testCheckPromotionActive(){
