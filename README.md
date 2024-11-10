@@ -22,6 +22,7 @@
 - [x] Promotion is applied to target Product
 - N+1 프로모션이 각각 지정된 상품에 적용된다.
    - [ ] find product by name with options that find promoted or non-promoted or both 
+   - [ ] access product data of repository by finding product
 
 
 ## File Input/Output 

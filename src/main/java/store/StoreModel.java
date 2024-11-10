@@ -59,47 +59,59 @@ public class StoreModel {
         return copied;
     }
 
+    /*TODO
+       - 접근지시자, static 키워드 기준으로 메소드 정렬하기
+    * */
     public Product findOneProduct(String name, boolean isPromoted){
+        return this.findOneOriginProduct(name,isPromoted).clone();
+    }
 
+    public List<Product> findProduct(String name){
+        return this.findProductOrigin(name).stream()
+                .map(Product::clone)
+                .toList();
+    }
+
+    public Product findOneOriginProduct(String name, boolean isPromoted){
         if(isPromoted){
             return findProductPromoted(name);
         }
-
         return findProductNonPromoted(name);
-
-
     }
-    public List<Product> findProduct(String name){
+
+    public List<Product> findProductOrigin(String name){
         return this.productRepository.stream()
                 .filter((product)->product.getName().equals(name))
-                .map(Product::clone)
                 .collect(Collectors.toList());
     }
 
     private Product findProductPromoted(String name){
-        List<Product> finds = findProduct(name)
-                .stream()
+        List<Product> finds = findProductOrigin(name).stream()
                 .filter((product -> product.getPromotionName()!=null))
                 .toList();
-        final int limit = 1;
-        if(finds.size() > limit){
-            ExceptionFactory.throwIllegalStateException(ExceptionType.INTERNAL_ERROR);
+        validateFindList(finds);
+        if(finds.isEmpty()){
+            return NOT_FOUND;
         }
-
         return finds.getFirst();
     }
 
     private Product findProductNonPromoted(String name){
-        List<Product> finds = findProduct(name)
-                .stream()
+        List<Product> finds = findProductOrigin(name).stream()
                 .filter(product -> product.getPromotionName() == Product.NO_PROMOTION)
                 .toList();
-        final int limit = 1;
+        validateFindList(finds);
+        if(finds.isEmpty()){
+            return NOT_FOUND;
+        }
+        return finds.getFirst();
+    }
+
+    private void validateFindList(List<?> finds){
+        int limit = 1;
         if(finds.size() > limit){
             ExceptionFactory.throwIllegalStateException(ExceptionType.INTERNAL_ERROR);
         }
-
-        return finds.getFirst();
     }
 
     /*TODO
