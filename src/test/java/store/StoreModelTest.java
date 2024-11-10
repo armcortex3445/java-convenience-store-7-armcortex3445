@@ -40,6 +40,8 @@ import store.product.Product;
 import store.product.PurchaseRequest;
 import store.product.Receipt;
 import store.product.promotion.Promotion;
+import store.product.promotion.PromotionResult;
+import store.product.promotion.PromotionState;
 
 public class StoreModelTest {
 
@@ -221,4 +223,53 @@ public class StoreModelTest {
 
         }, LocalDateTime.of(2024, 1, 2, 0, 0));
     }
+
+    @DisplayName("물건 구매시, 프로모션 적용 결과 정보를 알린다.")
+    @Test
+    void testProvidePromotionInfo(){
+        LocalDateTime validTo2Plus1 = LocalDateTime.of(2024, 1, 2, 0, 0);
+        LocalDateTime validToAll = LocalDateTime.of(2024,11,2,0,0);
+        assertNowTest(() -> {
+            String promotionList = "name,buy,get,start_date,end_date\n"
+                    + "탄산2+1,2,1,2024-01-01,2024-12-31\n"
+                    + "반짝할인,1,1,2024-11-01,2024-11-30";
+            String productList = "name,price,quantity,promotion\n"
+                    + "콜라,1000,10,탄산2+1\n"
+                    + "콜라,1000,10,null\n"
+                    + "사이다,1000,10,반짝할인\n"
+                    +"과자,1000,20,null";
+
+            List<Product> products = StoreModel.createProducts(productList);
+            List<Promotion> promotions = StoreModel.createPromotions(promotionList);
+
+            StoreModel storeModel = new StoreModel();
+            storeModel.initStore(products, promotions);
+
+            PromotionResult promotionResult = storeModel
+                    .checkProductPromotionAvailable("콜라",5);
+            assertThat(promotionResult.getState())
+                    .as("프로모션 적용이 가능한 상품에 대해 고객이 해당 수량보다 적게 사는 경우,"
+                            + " 추가 수량이 필요함을 알린다.")
+                    .isEqualTo(PromotionState.MORE_NEEDED);
+            assertThat(promotionResult.getNeededItemCount()).isEqualTo(1);
+
+            promotionResult = storeModel
+                    .checkProductPromotionAvailable("콜라",10);
+            assertThat(promotionResult.getState())
+                    .as("프로모션 적용이 가능한 상품에 대해 재고가 부족한 경우,"
+                            + " 수량 부족 상태임을 알린다.")
+                    .isEqualTo(PromotionState.INSUFFICIENT);
+
+            promotionResult = storeModel
+                    .checkProductPromotionAvailable("과자",10);
+            assertThat(promotionResult.getState())
+                    .as("프로모션 적용이 가능한 상품이 아닌경우,"
+                            + " 프로모션 미적용 상태임을 알린다.")
+                    .isEqualTo(PromotionState.NO_PROMOTION);
+
+
+        }, validToAll);
+
+    }
+
 }

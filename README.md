@@ -26,6 +26,7 @@
 ## Store Logic
 - [ ] find product by name with options that find promoted or non-promoted or both
 - [ ] access product data of repository by finding product
+- [x] estimate result when promotion is applied to products
   
 ## Promotion related
 

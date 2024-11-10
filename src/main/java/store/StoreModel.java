@@ -1,5 +1,6 @@
 package store;
 
+import camp.nextstep.edu.missionutils.DateTimes;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +12,8 @@ import store.product.Product;
 import store.product.PurchaseRequest;
 import store.product.Receipt;
 import store.product.promotion.Promotion;
+import store.product.promotion.PromotionResult;
+import store.product.promotion.PromotionState;
 import store.utils.ExceptionFactory;
 import store.utils.ExceptionType;
 import store.utils.Transformer;
@@ -181,6 +184,27 @@ public class StoreModel {
             promotions.add(StoreModel.createPromotion(rawPromotion));
         }
         return promotions;
+    }
+
+    public List<PromotionResult> checkPromotionAvailable(List<PurchaseRequest> purchaseRequests){
+        List<PromotionResult> promotionResults = new ArrayList<>();
+        for(PurchaseRequest request : purchaseRequests){
+            promotionResults.add(checkProductPromotionAvailable(request.getProductName(),request.getCountPurchased()));
+        }
+
+        return promotionResults;
+    }
+
+    public PromotionResult checkProductPromotionAvailable(String productName, int buyCount){
+        Product product = findProductPromoted(productName);
+        if(findProductPromoted(productName) == NOT_FOUND){
+            return PromotionResult.createNoPromotion(productName);
+        }
+        if(product.isEnoughToBuy(buyCount)){
+            return product.estimatePromotionResult(buyCount, DateTimes.now());
+        }
+        PromotionResult result = product.estimatePromotionResult(product.calculateMaxCountToBuy(buyCount),DateTimes.now());
+        return result.transitState(PromotionState.INSUFFICIENT);
     }
 
     public List<Receipt> buyProducts(List<PurchaseRequest> purchaseRequests){
