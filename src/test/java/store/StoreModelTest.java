@@ -193,4 +193,32 @@ public class StoreModelTest {
     }
 
 
+    @DisplayName("오늘 날짜가 프로모션 기간 내에 포함된 경우에만 할인을 적용한다.")
+    @Test
+    void testApplyPromotedOnlyEventDays() {
+        assertNowTest(() -> {
+            String promotionList = "name,buy,get,start_date,end_date\n"
+                    + "탄산2+1,2,1,2024-01-01,2024-12-31\n"
+                    + "반짝할인,1,1,2024-11-01,2024-11-30";
+            String productList = "name,price,quantity,promotion\n"
+                    + "콜라,1000,10,탄산2+1\n"
+                    + "콜라,1000,10,null\n"
+                    + "사이다,1000,10,반짝할인";
+
+            List<Product> products = StoreModel.createProducts(productList);
+            List<Promotion> promotions = StoreModel.createPromotions(promotionList);
+
+            StoreModel storeModel = new StoreModel();
+            storeModel.initStore(products, promotions);
+
+            PurchaseRequest request = new PurchaseRequest("콜라", 6);
+            Receipt receipt = storeModel.buyProduct(request);
+            assertThat(receipt.getDisCountPrice()).isEqualTo(2000);
+
+            PurchaseRequest requestCider = new PurchaseRequest("사이다",10);
+            Receipt receiptCider = storeModel.buyProduct(requestCider);
+            assertThat(receiptCider.getDisCountPrice()).isEqualTo(0);
+
+        }, LocalDateTime.of(2024, 1, 2, 0, 0));
+    }
 }
