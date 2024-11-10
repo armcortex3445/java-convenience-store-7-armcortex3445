@@ -9,6 +9,11 @@ import java.util.List;
 
 public class Transformer {
 
+    static public String concatenateList(List<String> stringList, String delimiter){
+
+        return String.join(delimiter,stringList);
+    }
+
     static public String joinToString(List<Integer> numberList, String delimiter){
 
 
@@ -20,6 +25,7 @@ public class Transformer {
 
         return String.join(delimiter,stringNumbers);
     }
+
 
     static public int parsePositiveInt(String rawNumber){
 

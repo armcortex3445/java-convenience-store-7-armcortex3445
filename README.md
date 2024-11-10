@@ -89,3 +89,4 @@
    - [ ] transform Numeric String to Positive Integer
    - [ ] transform Integer List to concatenated String
    - [ ] transform string to LocalDate/LocalDateTime
+   - [ ] transform List<String> to String by concatenating list
