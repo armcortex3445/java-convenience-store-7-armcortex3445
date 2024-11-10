@@ -12,6 +12,8 @@ import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import store.product.promotion.Promotion;
+import store.product.promotion.PromotionResult;
+import store.product.promotion.PromotionState;
 
 
 /*프로모션 할인
@@ -96,4 +98,33 @@ public class ProductTest {
 
 
     }
+
+    @DisplayName("상품 구매시의 프로모션 적용 결과를 추정한다.")
+    @Test
+    void testEstimatePromotionResult(){
+            Product product = new Product("연필",1000,100,"1+1");
+
+            LocalDateTime start = LocalDateTime.of(2024,1,1,0,0);
+            LocalDateTime end = LocalDateTime.of(2024,12,31,0,0);
+
+            product.setPromotion("1+1",start,end,1);
+
+            LocalDateTime validDate = LocalDateTime.of(2024,1,2,0,0);
+            LocalDateTime invalidDate = LocalDateTime.of(2025,1,1,0,0);
+
+            PromotionResult promotionResult = product.estimatePromotionResult(10,validDate);
+            assertThat(promotionResult.getState())
+                    .as("프로모션 적용 날짜에는 프로모션의 적용시 결과를 알려준다")
+                    .isEqualTo(PromotionState.APPLIED);
+
+            promotionResult = product.estimatePromotionResult(10,invalidDate);
+            assertThat(promotionResult.getState())
+                    .as("프로모션 적용 날짜에는 프로모션 적용안됨을 알려준다.")
+                    .isEqualTo(PromotionState.NO_PROMOTION);
+
+
+
+    }
+
+
 }

@@ -3,6 +3,8 @@ package store.product;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import store.product.promotion.Promotion;
+import store.product.promotion.PromotionResult;
+import store.product.promotion.PromotionState;
 import store.utils.ExceptionFactory;
 import store.utils.ExceptionType;
 import camp.nextstep.edu.missionutils.DateTimes;
@@ -81,7 +83,7 @@ public class Product implements Cloneable{
     }
 
     public boolean isPromotionActive(LocalDateTime today){
-        if(this.promotion == Promotion.NULL){
+        if(!isPromotionExist()){
             return false;
         }
         return this.promotion.isActive(today);
@@ -117,6 +119,35 @@ public class Product implements Cloneable{
                 this.calculateTotalPrice(count),
                 this.calculateDiscountPrice(count));
 
+    }
+
+    public PromotionResult estimatePromotionResult(int count, LocalDateTime now){
+        if(this.isPromotionExist() && this.isPromotionActive(now)) {
+            return this.promotion.estimate(name,count);
+        }
+
+        return PromotionResult.createNoPromotion(name);
+    }
+
+    public int calculateMaxCountToBuy(int buyCount){
+        if(count < buyCount){
+            return count;
+        }
+
+        return buyCount;
+    }
+
+    public boolean isEnoughToBuy(int buyCount){
+        return count > buyCount;
+    }
+
+    public boolean isPromotionExist(){
+        boolean isPromotionNotNull = this.promotion != Promotion.NULL;
+        boolean isPromotionNameExist = this.promotionName != NO_PROMOTION;
+        if(isPromotionNotNull != isPromotionNameExist){
+            ExceptionFactory.throwIllegalStateException(ExceptionType.INTERNAL_ERROR);
+        }
+        return isPromotionNotNull;
     }
 
     private void decreaseCount(int count){

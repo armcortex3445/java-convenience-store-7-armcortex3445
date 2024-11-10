@@ -15,6 +15,7 @@
 - [x] apply promotion
 - [x] check whether promotion is active or not based on date data
 - [x] buy product with returning receipt and decreasing count
+- [x] estimate result of promoted product when promotion is applied based on Date
 
 ### Promotion
 - [x] represent Promotion
