@@ -14,12 +14,19 @@ public enum ExceptionType {
 
     //STRING related
     EMPTY_STRING("string is empty"),
+    DISABLE_ENCODED_TO_UTF8("string is not able to be encoded by utf 8"),
 
     //Model
     INTERNAL_ERROR("Internal logic error"),
 
     //Promotion
     INVALID_RETURN_PROMOTION("return should be 1"),
+
+    //File or I/O
+    READ_FILE_FAIL("can't read the file"),
+    TOO_LARGE_FILE("File is too large to process"),
+    EMPTY_FILE("File is empty"),
+    INVALID_FILE_FORMAT("File format is invalid"),
 
     //LocalDate
     INVALID_DATE_STRING("String is not able to pared to LocalDate/LocalDateTime");
