@@ -122,6 +122,9 @@ public class StoreModel {
 
     /*TODO
     *   - promotion과 product 생성 관련 static 함수를 다른 클래스에 책임 맡길 것으 고려하기
+    *   - promotion과 product 생성시 예외처리 고려
+    *       - 잘못된 타입 입력
+    *       - 잘못된 형식 입력
     * */
 
     static public List<String> parseString(String string){
@@ -266,7 +269,5 @@ public class StoreModel {
         request.decreaseCount(buyCount);
         return product.buy(buyCount);
     }
-
-
 
 }
