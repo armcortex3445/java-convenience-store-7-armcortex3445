@@ -16,7 +16,9 @@
 - [x] check whether promotion is active or not based on date data
 
 ### Promotion
-
+- [x] represent Promotion
+- [x] check return count when promotion is applied
+- [x] check whether date is able to apply promotion or not 
 
 ## Store Logic
 - [ ] find product by name with options that find promoted or non-promoted or both
