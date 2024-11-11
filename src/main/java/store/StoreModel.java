@@ -225,6 +225,19 @@ public class StoreModel {
         return combineReceipt(resultPromoted,resultNonPromoted);
     }
 
+    public int calculateDiscount(List<Receipt> receipts){
+        /*TODO
+        *   - 합계산 도중 오버플로우 점검 필요*/
+        final int maxDisCount = 8000;
+        final double disCountRate = 0.3;
+        int totalNonPromotedPrice = 0;
+        for(Receipt receipt : receipts){
+            totalNonPromotedPrice += receipt.getNonPromotedPrice();
+        }
+        int disCountPrice = (int)Math.round(disCountRate * totalNonPromotedPrice);
+        return Math.min(maxDisCount, disCountPrice);
+    }
+
     private Receipt combineReceipt(Receipt promoted, Receipt nonPromoted) {
         final Receipt nullReceipt = null;
         if (promoted == nullReceipt && nonPromoted == nullReceipt) {
