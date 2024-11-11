@@ -163,6 +163,11 @@ public class Product implements Cloneable{
         return isPromotionNotNull;
     }
 
+    public boolean isInsufficient(){
+        int zero = 0;
+        return count == zero;
+    }
+
     private void decreaseCount(int count){
         if(count > this.count){
             ExceptionFactory.throwIllegalStateException(ExceptionType.INTERNAL_ERROR);

@@ -17,6 +17,7 @@
 - [x] buy product with returning receipt and decreasing count
 - [x] estimate result of promoted product when promotion is applied based on Date
 - [x] return count of product which is not applied to promotion  
+- [ ] check whether product is 0 or not
 
 ### Promotion
 - [x] represent Promotion
