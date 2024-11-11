@@ -34,6 +34,13 @@ public class Transformer {
         return Integer.parseInt(rawNumber);
     }
 
+    static public int parseNonNegativeNumber(String rawNumber){
+
+        Validator.validateNonNegativeNumericString(rawNumber);
+
+        return Integer.parseInt(rawNumber);
+    }
+
     static public LocalDate parseLocalDate(String rawDate, DateTimeFormatter formatter){
         try {
             return LocalDate.parse(rawDate, formatter);

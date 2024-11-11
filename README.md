@@ -146,6 +146,7 @@
 
 - provide type transform logic
    - [ ] transform Numeric String to Positive Integer
+   - [ ] transform Numeric String to Non-Negative Integer
    - [ ] transform Integer List to concatenated String
    - [ ] transform string to LocalDate/LocalDateTime
    - [ ] transform List<String> to String by concatenating list
