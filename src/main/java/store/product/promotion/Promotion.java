@@ -71,8 +71,7 @@ public class Promotion implements Cloneable {
         if(neededItemCount > 0){
             state = PromotionState.MORE_NEEDED;
         }
-        return new PromotionResult(state,applyItemCount,neededItemCount,productName);
-
+        return new PromotionResult(state,count,applyItemCount,neededItemCount,productName);
     }
 
     public String getStartDate(){

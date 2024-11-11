@@ -29,6 +29,10 @@
 - [ ] combine receipt data when both product name is safe
 - [ ] provide purchase info related to product , price and discount
 
+### PromotionResult
+- [ ] represent simulated result when promotion is applied
+- [ ] provide simulated purchase info
+
 ## Store Logic
 - [ ] find product by name with options that find promoted or non-promoted or both
 - [ ] access product data of repository by finding product
