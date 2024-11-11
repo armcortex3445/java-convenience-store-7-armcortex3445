@@ -59,6 +59,7 @@
 ### Input view 
 - [ ] print guide message before read input from user
 - [ ] read purchase product list
+- [ ] read again purchase product list with error message about previous product list input
 - [ ] read answer whether promotion product omitted during buying is added or not
 - [ ] read answer whether buy promotion product as regular price because of insufficient or not
 - [ ] read answer whether apply membership discount or not

@@ -15,6 +15,7 @@ import store.utils.Validator;
 
 public class StoreInputView {
     static final Pattern PURCHASE_PATTERN = Pattern.compile(StoreViewMessage.PURCHASE_PATTERN);
+
     public List<PurchaseRequest> readPurchaseProduct(){
         StoreViewMessage.PURCHASE_GUIDE.printMessage();
         String purchaseList = Console.readLine();
@@ -24,6 +25,13 @@ public class StoreInputView {
             StoreViewMessage.ERROR_INVALID_FORMAT.printMessage();
             return readPurchaseProduct();
         }
+    }
+
+    public List<PurchaseRequest> retryReadPurchaseProduct(List<StoreViewMessage> errorMessages){
+        for(StoreViewMessage message : errorMessages){
+            message.printMessage();
+        }
+        return readPurchaseProduct();
     }
 
     public List<PurchaseRequest> readAnswerPurchaseChange(List<PromotionResult> promotionResults){
