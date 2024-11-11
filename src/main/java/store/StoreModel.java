@@ -42,7 +42,28 @@ public class StoreModel {
         for(Product origin : products){
             this.productRepository.add(origin.clone());
         }
+        checkInitProduct(this.productRepository);
     }
+
+    public void checkInitProduct(List<Product> products){
+        for(Product product : products){
+            validateSameProductsHaveSamePrice(product);
+        }
+    }
+
+    public void validateSameProductsHaveSamePrice(Product product){
+        List<Product> finds = findProduct(product.getName());
+        int price = 0;
+        for(Product find : finds){
+            price += find.getPrice();
+        }
+        int averagePrice = price / finds.size();
+        if(finds.getFirst().getPrice() != averagePrice){
+            System.out.println("[Error] 동일 이름의 상품은 가격이 같아야 합니다. 잘못된 상품 :" + product.getName());
+            ExceptionFactory.throwIllegalStateException(ExceptionType.INVALID_FILE_FORMAT);
+        }
+    }
+
     private void putPromotion(List<Promotion> promotions){
         /*TODO
            - 프로모션 이름 중복이 없도록 해야함.

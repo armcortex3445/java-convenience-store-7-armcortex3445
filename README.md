@@ -50,6 +50,8 @@
 - [ ] calculate membership discount
 - [x] validate product name format
 - [ ] validate purchase request whether request is valid
+- validate product when init store model
+  - [ ] validate same name product whether products have same price or not
 
 ### Load Model logic
 - [x] read src/main/resources/products.md file
