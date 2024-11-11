@@ -3,6 +3,7 @@ package store;
 import java.util.List;
 import store.product.Product;
 import store.product.Receipt;
+import store.utils.Transformer;
 
 public class StoreOutputView {
 
@@ -63,15 +64,49 @@ public class StoreOutputView {
     }
 
     public void printBillMessage(int totalCount, int promotedPrice, int totalActualPrice, int disCountPrice){
+        printBillMessageTotalActualPrice(totalCount,totalActualPrice);
+        printBillMessagePromotionDiscount(promotedPrice);
+        printBillMessageMembershipDiscount(disCountPrice);
+        printBillMessageTotalPrice(totalActualPrice - promotedPrice - disCountPrice);
+    }
+
+    public void printBillMessageTotalActualPrice(int totalCount,int totalActualPrice){
         String empty = "";
-        String totalActualPriceRow = "총구매액";
-        String promotedDisCountRow = "행사할인";
-        String membershipRow = "멤버십할인";
-        String totalPriceRow = "내실돈";
-        StoreViewMessage.printReceiptFormat(totalActualPriceRow,Integer.toString(totalCount),Integer.toString(totalActualPrice));
-        StoreViewMessage.printReceiptFormat(promotedDisCountRow,empty,"-"+ promotedPrice);
-        StoreViewMessage.printReceiptFormat(membershipRow,empty,"-"+ disCountPrice);
-        StoreViewMessage.printReceiptFormat(totalPriceRow,empty,Integer.toString(totalActualPrice - promotedPrice - disCountPrice));
+        String column = "총구매액";
+        StoreViewMessage.printReceiptFormat(column,Integer.toString(totalCount), Transformer.transformToThousandSeparated(totalActualPrice));
+    }
+
+    public void printBillMessagePromotionDiscount(int promotedPrice){
+        String empty = "";
+        String column = "행사할인";
+        int zero = 0;
+        String discount = "-";
+        if(promotedPrice == zero){
+            discount="";
+        }
+        discount += Transformer.transformToThousandSeparated(promotedPrice);
+
+        StoreViewMessage.printReceiptFormat(column,empty,discount);
+    }
+
+    public void printBillMessageMembershipDiscount(int disCountPrice){
+        String empty = "";
+        String column = "멤버십할인";
+        int zero = 0;
+        String discount = "-";
+        if(disCountPrice == zero){
+            discount="";
+        }
+        discount += Transformer.transformToThousandSeparated(disCountPrice);
+
+        StoreViewMessage.printReceiptFormat(column,empty,discount);
+    }
+
+    public void printBillMessageTotalPrice(int totalPrice){
+        String empty = "";
+        String column = "내실돈";
+
+        StoreViewMessage.printReceiptFormat(column,empty,Transformer.transformToThousandSeparated(totalPrice));
     }
 
     public List<Integer> calculateTotalReceipt(List<Receipt> receipts){
