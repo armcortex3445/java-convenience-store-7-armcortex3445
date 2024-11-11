@@ -249,9 +249,9 @@ public class StoreModelTest {
                     .checkProductPromotionAvailable("콜라",5);
             assertThat(promotionResult.getState())
                     .as("프로모션 적용이 가능한 상품에 대해 고객이 해당 수량보다 적게 사는 경우,"
-                            + " 추가 수량이 필요함을 알린다.")
-                    .isEqualTo(PromotionState.MORE_NEEDED);
-            assertThat(promotionResult.getNeededItemCount()).isEqualTo(1);
+                            + " 무료 증정이 있음을 알린다.")
+                    .isEqualTo(PromotionState.OMISSION);
+            assertThat(promotionResult.getOmittedItemCount()).isEqualTo(1);
 
             promotionResult = storeModel
                     .checkProductPromotionAvailable("콜라",10);

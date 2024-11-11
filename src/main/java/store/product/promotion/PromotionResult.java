@@ -7,7 +7,7 @@ import store.utils.ExceptionType;
 public class PromotionResult {
 
     private int appliedItemCount = 0;
-    private int neededItemCount = 0;
+    private int omittedItemCount = 0;
     private int totalItemCount = 0;
     private PromotionState state;
     private String productName;
@@ -16,11 +16,11 @@ public class PromotionResult {
 
     }
 
-    public PromotionResult(PromotionState state, int totalItemCount,int appliedItemCount, int neededItemCount, String productName){
+    public PromotionResult(PromotionState state, int totalItemCount,int appliedItemCount, int omittedItemCount, String productName){
         this.state = state;
         this.totalItemCount = totalItemCount;
         this.appliedItemCount = appliedItemCount;
-        this.neededItemCount = neededItemCount;
+        this.omittedItemCount = omittedItemCount;
         this.productName = productName;
 
     }
@@ -30,21 +30,21 @@ public class PromotionResult {
 //    }
 //
 //    public void setNeededItemCount(int enableItemCount) {
-//        this.neededItemCount = enableItemCount;
+//        this.omittedItemCount = enableItemCount;
 //    }
 
     public int getAppliedItemCount() {
         return appliedItemCount;
     }
 
-    public int getNeededItemCount() {
-        return neededItemCount;
+    public int getOmittedItemCount() {
+        return omittedItemCount;
     }
 
     public int getTotalItemCount() { return totalItemCount;}
 
     public int getNonPromotedCount() {
-        int fullPromotedCount = totalItemCount + neededItemCount;
+        int fullPromotedCount = totalItemCount + omittedItemCount;
         int appliedCountWhenFullPromoted = appliedItemCount + 1;
         int zero = 0;
         if(fullPromotedCount% appliedCountWhenFullPromoted != zero){
@@ -59,7 +59,7 @@ public class PromotionResult {
     public String getProductName() {return  productName;}
 
     public PromotionResult transitState(PromotionState newState){
-        return new PromotionResult(newState,totalItemCount,appliedItemCount,neededItemCount,productName);
+        return new PromotionResult(newState,totalItemCount,appliedItemCount,omittedItemCount,productName);
     }
 
     static public PromotionResult createNoPromotion(String productName){

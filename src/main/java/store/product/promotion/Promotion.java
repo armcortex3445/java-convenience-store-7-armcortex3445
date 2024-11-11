@@ -52,26 +52,26 @@ public class Promotion implements Cloneable {
         return count / unitCount;
     }
 
-    public int checkNeededItem(int count){
+    public int checkOmittedReturn(int count){
         final int unitCount = this.conditionCount + RETURN_COUNT;
-
-        int neededItem = unitCount - (count % unitCount);
-        if(neededItem == unitCount){
-            neededItem = 0;
+        int zero = 0;
+        int nonPromotedCount = count % unitCount;
+        if(nonPromotedCount == this.conditionCount){
+            return RETURN_COUNT;
         }
 
-        return neededItem;
+        return zero;
     }
 
     public PromotionResult estimate(String productName, int count){
         int applyItemCount =  this.checkReturn(count);
-        int neededItemCount = this.checkNeededItem(count);;
+        int omittedItem = this.checkOmittedReturn(count);;
         PromotionState state = PromotionState.APPLIED;
 
-        if(neededItemCount > 0){
-            state = PromotionState.MORE_NEEDED;
+        if(omittedItem > 0){
+            state = PromotionState.OMISSION;
         }
-        return new PromotionResult(state,count,applyItemCount,neededItemCount,productName);
+        return new PromotionResult(state,count,applyItemCount,omittedItem,productName);
     }
 
     public String getStartDate(){
