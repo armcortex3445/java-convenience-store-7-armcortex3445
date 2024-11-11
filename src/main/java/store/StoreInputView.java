@@ -154,9 +154,7 @@ public class StoreInputView {
     }
 
     static public void validatePurchase(String purchase){
-        /*TODO
-        *  - 입력된 제품 이름이 한글인지 검증 필요. 
-        *    - 해당 부분은 다른 클래스의 로직에서도 필요하므로, Validator에 로직을 추가하기*/
+
         if(!purchase.matches(StoreViewMessage.PURCHASE_PATTERN)){
             ExceptionFactory.throwIllegalArgumentException(ExceptionType.INVALID_INPUT_STRING_FORMAT);
         }
