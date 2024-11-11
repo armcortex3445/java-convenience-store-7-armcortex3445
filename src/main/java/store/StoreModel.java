@@ -151,7 +151,7 @@ public class StoreModel {
         if(promotion.equals("null")){
             promotion = null;
         }
-        return new Product(name, Transformer.parsePositiveInt(price),Transformer.parsePositiveInt(quantity),promotion);
+        return new Product(name, Transformer.parsePositiveInt(price),Transformer.parseNonNegativeNumber(quantity),promotion);
     }
 
     static public List<Product> createProducts(String rawProductList){

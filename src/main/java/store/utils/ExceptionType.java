@@ -7,6 +7,7 @@ public enum ExceptionType {
     NON_POSITIVE_NUMBER("number is not positive number"),
     NON_DIVISIBLE("values are not divisible relation"),
     OUT_OF_SPECIFIC_RANGE("out of specific range"),
+    NEGATIVE_NUMBER("number is negative"),
 
     //Number list  related
     NOT_PROPER_SIZE("list size is not proper"),
