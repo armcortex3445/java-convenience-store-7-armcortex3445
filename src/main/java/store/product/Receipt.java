@@ -45,7 +45,7 @@ public class Receipt {
         int discountPrice = this.disCountPrice + receipt.disCountPrice;
         int nonPromotedCount = this.nonPromotedCount + receipt.nonPromotedCount;
 
-        return new Receipt(this.productName,actualPrice,discountPrice,pricePerOne,nonPromotedCount);
+        return new Receipt(this.productName,actualPrice,discountPrice,Math.max(pricePerOne,receipt.pricePerOne),nonPromotedCount);
     }
 
     public static Receipt createEmptyReceipt(String productName){
