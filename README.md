@@ -42,7 +42,8 @@
    - [ ] decrease buy count
    - [ ] increase buy count
 
-## Store Logic
+## Model
+### Store Model Logic
 - [ ] find product by name with options that find promoted or non-promoted or both
 - [ ] access product data of repository by finding product
 - [x] estimate result when promotion is applied to products
@@ -50,7 +51,7 @@
 - [x] validate product name format
 - [ ] validate purchase request whether request is valid
 
-## Load logic
+### Load Model logic
 - [x] read src/main/resources/products.md file
 - [x] read src/main/resources/promotions.md file
 - [x] read file from specific path
