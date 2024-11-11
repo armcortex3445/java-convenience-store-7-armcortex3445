@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import store.io.ProductFile;
 import store.io.PromotionFile;
@@ -22,6 +24,8 @@ public class StoreModel {
     static private final  Product NOT_FOUND = null;
     private final List<Product> productRepository;
     private final HashMap<String,Promotion> promotionHashMap;
+    final static String NAME_REGULAR_EXPRESSION = "^[a-zA-Z가-힣0-9]+$";
+    final static Pattern NAME_PATTERN = Pattern.compile(StoreModel.NAME_REGULAR_EXPRESSION);
 
     StoreModel(){
         this.productRepository = new ArrayList<>();
@@ -143,11 +147,11 @@ public class StoreModel {
         String price = parsedRawProduct.get(ProductFile.PRICE.getColumnIdx());
         String quantity = parsedRawProduct.get(ProductFile.QUANTITY.getColumnIdx());
         String promotion = parsedRawProduct.get(ProductFile.PROMOTION.getColumnIdx());
-
+        validateNameFormat(name);
+        validateNameFormat(promotion);
         if(promotion.equals("null")){
             promotion = null;
         }
-
         return new Product(name, Transformer.parsePositiveInt(price),Transformer.parsePositiveInt(quantity),promotion);
     }
 
@@ -163,6 +167,12 @@ public class StoreModel {
         }
         return products;
     }
+    static public void validateNameFormat(String name){
+        Matcher matcher = NAME_PATTERN.matcher(name);
+        if(!matcher.matches()){
+            ExceptionFactory.throwIllegalArgumentException(ExceptionType.INVALID_NAME_FORMAT);
+        }
+    }
 
     static public Promotion createPromotion(String rawPromotion){
         List<String> parsedRawPromotion = StoreModel.parseString(rawPromotion);
@@ -171,7 +181,7 @@ public class StoreModel {
         String returnCount = parsedRawPromotion.get(PromotionFile.GET.getColumnIdx());
         String startDate = parsedRawPromotion.get(PromotionFile.START_DATE.getColumnIdx());
         String endDate = parsedRawPromotion.get(PromotionFile.END_DATE.getColumnIdx());
-
+        validateNameFormat(name);
         Promotion.validateReturnCount(returnCount);
         return new Promotion(name, Transformer.parseStartDate(startDate,PromotionFile.DATE_TIME_FORMATTER),Transformer.parseEndDate(endDate,PromotionFile.DATE_TIME_FORMATTER),Transformer.parsePositiveInt(buyCount));
     }

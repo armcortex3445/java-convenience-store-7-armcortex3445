@@ -47,6 +47,7 @@
 - [ ] access product data of repository by finding product
 - [x] estimate result when promotion is applied to products
 - [ ] calculate membership discount
+- [x] validate name format
 
 ## Load logic
 - [x] read src/main/resources/products.md file

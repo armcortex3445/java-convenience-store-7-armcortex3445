@@ -16,6 +16,7 @@ public enum ExceptionType {
     EMPTY_STRING("string is empty"),
     DISABLE_ENCODED_TO_UTF8("string is not able to be encoded by utf 8"),
     INVALID_INPUT_STRING_FORMAT("input string format is invalid"),
+    INVALID_NAME_FORMAT("name should be composed by english, korean and number"),
 
     //Model
     INTERNAL_ERROR("Internal logic error"),

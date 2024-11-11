@@ -30,12 +30,15 @@ package store;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static camp.nextstep.edu.missionutils.test.Assertions.assertNowTest;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import store.product.Product;
 import store.product.PurchaseRequest;
 import store.product.Receipt;
@@ -168,6 +171,21 @@ public class StoreModelTest {
 
 
     }
+
+    @DisplayName("프로모션 및 상품의 이름이 영어,한글,숫자로 이루워졌는지 판단한다")
+    @ParameterizedTest
+    @ValueSource(strings = {"사이다101","ea12삼","1234"})
+    void testValidateName(String name){
+        StoreModel.validateNameFormat(name);
+    }
+
+    @DisplayName("프로모션 및 상품의 이름이 영어,한글,숫자로 이뤄져있지 않으면 예외를 발생시킨다")
+    @ParameterizedTest
+    @ValueSource(strings = {"~","  ","??D"})
+    void testExceptionValidateName(String name){
+        assertThatThrownBy(()->StoreModel.validateNameFormat(name)).isInstanceOfAny(IllegalArgumentException.class,IllegalStateException.class);
+    }
+
 
     @DisplayName("프로모션 기간 중이라면 프로모션 재고를 우선적으로 차감하며, 프로모션 재고가 부족할 경우에는 일반 재고를 사용한다.")
     @Test
