@@ -47,7 +47,7 @@
 - [ ] access product data of repository by finding product
 - [x] estimate result when promotion is applied to products
 - [ ] calculate membership discount
-- [x] validate name format
+- [x] validate product name format
 - [ ] validate purchase request whether request is valid
 
 ## Load logic

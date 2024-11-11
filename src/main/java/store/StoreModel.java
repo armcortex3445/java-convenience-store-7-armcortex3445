@@ -148,7 +148,6 @@ public class StoreModel {
         String quantity = parsedRawProduct.get(ProductFile.QUANTITY.getColumnIdx());
         String promotion = parsedRawProduct.get(ProductFile.PROMOTION.getColumnIdx());
         validateNameFormat(name);
-        validateNameFormat(promotion);
         if(promotion.equals("null")){
             promotion = null;
         }
@@ -181,7 +180,6 @@ public class StoreModel {
         String returnCount = parsedRawPromotion.get(PromotionFile.GET.getColumnIdx());
         String startDate = parsedRawPromotion.get(PromotionFile.START_DATE.getColumnIdx());
         String endDate = parsedRawPromotion.get(PromotionFile.END_DATE.getColumnIdx());
-        validateNameFormat(name);
         Promotion.validateReturnCount(returnCount);
         return new Promotion(name, Transformer.parseStartDate(startDate,PromotionFile.DATE_TIME_FORMATTER),Transformer.parseEndDate(endDate,PromotionFile.DATE_TIME_FORMATTER),Transformer.parsePositiveInt(buyCount));
     }
