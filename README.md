@@ -39,6 +39,7 @@
 - [ ] access request info
 - [ ] provide modifying request info 
    - [ ] decrease buy count
+   - [ ] increase buy count
 
 ## Store Logic
 - [ ] find product by name with options that find promoted or non-promoted or both

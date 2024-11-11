@@ -2,6 +2,7 @@ package store.product;
 
 import store.utils.ExceptionFactory;
 import store.utils.ExceptionType;
+import store.utils.Validator;
 
 public class PurchaseRequest {
     private String productName;
@@ -20,6 +21,20 @@ public class PurchaseRequest {
     }
     public int getCountPurchased(){
         return this.countPurchased;
+    }
+
+    public void increaseCount(int value){
+        Validator.validatePositiveNumber(value);
+        this.countPurchased += value;
+    }
+
+    public PurchaseRequest tryToIncrease(boolean isIncrease){
+        int step = 1;
+        if(isIncrease){
+            this.increaseCount(step);
+            return this;
+        }
+        return this;
     }
 
     public void decreaseCount(int value){
