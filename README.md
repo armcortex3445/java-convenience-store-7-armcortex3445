@@ -54,7 +54,29 @@
 - [x] read src/main/resources/promotions.md file
 - [x] read file from specific path
 - [x] validate file contents
-  
+
+## View logic
+### Input view 
+- [ ] print guide message before read input from user
+- [ ] read purchase product list
+- [ ] read answer whether promotion product omitted during buying is added or not
+- [ ] read answer whether buy promotion product as regular price because of insufficient or not
+- [ ] read answer whether apply membership discount or not
+- [ ] read answer whether continue to purchase
+- [ ] create purchase request based on purchase product list input
+- [ ] retry read action when read invalid input
+- [ ] print error message when read invalid input
+- validate input data
+  - [x] validate purchase product list
+  - [x] validate purchase product
+  - [x] extract elements from purchase product list
+  - [x] validate answer Y/N format
+  - 
+### Output View
+- [ ] print welcome message and selling product list
+- [ ] print purchase product list
+- [ ] print promotion return product list
+- [ ] print bill 
 ## Promotion related
 
 - [x] Promotion is able to applied whether today is on event days.
