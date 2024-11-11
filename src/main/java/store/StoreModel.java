@@ -283,16 +283,9 @@ public class StoreModel {
     }
 
     private Receipt combineReceipt(Receipt promoted, Receipt nonPromoted) {
-        final Receipt nullReceipt = null;
-        if (promoted == nullReceipt && nonPromoted == nullReceipt) {
+        if(!promoted.getProductName().equals(nonPromoted.getProductName())){
             ExceptionFactory.throwIllegalStateException(ExceptionType.INTERNAL_ERROR);
         }
-        if (promoted == nullReceipt){
-            return nonPromoted;
-        }
-        if(nonPromoted == nullReceipt){
-            return promoted;
-            }
         return promoted.combine(nonPromoted);
     }
 
