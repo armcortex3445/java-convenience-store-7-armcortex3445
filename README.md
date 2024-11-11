@@ -16,12 +16,18 @@
 - [x] check whether promotion is active or not based on date data
 - [x] buy product with returning receipt and decreasing count
 - [x] estimate result of promoted product when promotion is applied based on Date
+- [x] return count of product which is not applied to promotion  
 
 ### Promotion
 - [x] represent Promotion
 - [x] check return count when promotion is applied
 - [x] check whether date is able to apply promotion or not 
 - [x] estimate result when promotion applied
+
+### Receipt
+- [ ] represent receipt
+- [ ] combine receipt data when both product name is safe
+- [ ] provide purchase info related to product , price and discount
 
 ## Store Logic
 - [ ] find product by name with options that find promoted or non-promoted or both

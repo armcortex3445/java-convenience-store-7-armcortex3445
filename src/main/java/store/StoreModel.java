@@ -243,7 +243,7 @@ public class StoreModel {
         boolean isPromoted = true;
         Product product = this.findOneOriginProduct(request.getProductName(),isPromoted);
         if(product == NOT_FOUND){
-            return Receipt.createEmptyRecipt(request.getProductName());
+            return Receipt.createEmptyReceipt(request.getProductName());
         }
         if(product.getCount() < request.getCountPurchased()){
             int buyCount = product.getCount();
@@ -257,7 +257,7 @@ public class StoreModel {
         boolean isPromoted = false;
         Product product = this.findOneOriginProduct(request.getProductName(),isPromoted);
         if(product == NOT_FOUND){
-            return Receipt.createEmptyRecipt(request.getProductName());
+            return Receipt.createEmptyReceipt(request.getProductName());
         }
         if(product.getCount() < request.getCountPurchased()){
             ExceptionFactory.throwIllegalStateException(ExceptionType.INTERNAL_ERROR);

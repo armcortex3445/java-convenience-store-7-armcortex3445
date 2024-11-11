@@ -99,6 +99,25 @@ public class ProductTest {
 
     }
 
+    @DisplayName("상품 구매할 경우의 프로모션이 적용되지 않는 상품 개수를 계산해준다")
+    @Test
+    void testCalculateNonPromotionProductCount(){
+        assertNowTest(()->{
+            Product product = new Product("사이다",1000,10,"2+1");
+
+            LocalDateTime start = LocalDateTime.of(2024,1,1,0,0);
+            LocalDateTime end = LocalDateTime.of(2024,12,31,0,0);
+
+            product.setPromotion("2+1",start,end,2);
+
+            int count = product.calculateNonPromotedCount(10);
+
+            assertThat(count).isEqualTo(1);
+
+        },LocalDateTime.of(2024,1,2,0,0));
+    }
+
+
     @DisplayName("상품 구매시의 프로모션 적용 결과를 추정한다.")
     @Test
     void testEstimatePromotionResult(){

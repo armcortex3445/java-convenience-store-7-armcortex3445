@@ -117,8 +117,21 @@ public class Product implements Cloneable{
 
         return new Receipt(name,
                 this.calculateTotalPrice(count),
-                this.calculateDiscountPrice(count));
+                this.calculateDiscountPrice(count),
+                this.price,
+                calculateNonPromotedCount(count)
+        );
+    }
 
+    public int calculateNonPromotedCount(int buyCount){
+        int nonPromotedCount = buyCount;
+        int zero = 0;
+        if(this.calculateDiscountPrice(buyCount) > zero){
+            int promotionUnit= this.getPromotion().getConditionCount() + Promotion.RETURN_COUNT;
+            nonPromotedCount = buyCount % promotionUnit;
+        }
+
+        return nonPromotedCount;
     }
 
     public PromotionResult estimatePromotionResult(int count, LocalDateTime now){
