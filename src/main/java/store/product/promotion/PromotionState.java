@@ -5,5 +5,6 @@ public enum PromotionState {
     OMISSION,
 
     NO_PROMOTION,
-    INSUFFICIENT;
+    INSUFFICIENT,
+    NONE;
 }

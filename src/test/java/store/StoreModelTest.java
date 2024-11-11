@@ -45,6 +45,7 @@ import store.product.Receipt;
 import store.product.promotion.Promotion;
 import store.product.promotion.PromotionResult;
 import store.product.promotion.PromotionState;
+import store.utils.ExceptionType;
 
 public class StoreModelTest {
 
@@ -157,7 +158,7 @@ public class StoreModelTest {
             StoreModel storeModel = new StoreModel();
             storeModel.initStore(products, promotions);
 
-            PurchaseRequest request = new PurchaseRequest("콜라", 6);
+            PurchaseRequest request = new PurchaseRequest("콜라", 6, PromotionState.APPLIED);
 
             Receipt receipt = storeModel.buyProduct(request);
             assertThat(receipt.getActualPrice()).isEqualTo(6000);
@@ -202,7 +203,7 @@ public class StoreModelTest {
         StoreModel storeModel = new StoreModel();
         storeModel.initStore(products, promotions);
 
-        PurchaseRequest request = new PurchaseRequest("콜라", 11);
+        PurchaseRequest request = new PurchaseRequest("콜라", 11,PromotionState.APPLIED);
 
         Receipt receipt = storeModel.buyProduct(request);
 
@@ -231,11 +232,11 @@ public class StoreModelTest {
             StoreModel storeModel = new StoreModel();
             storeModel.initStore(products, promotions);
 
-            PurchaseRequest request = new PurchaseRequest("콜라", 6);
+            PurchaseRequest request = new PurchaseRequest("콜라", 6,PromotionState.APPLIED);
             Receipt receipt = storeModel.buyProduct(request);
             assertThat(receipt.getDisCountPrice()).isEqualTo(2000);
 
-            PurchaseRequest requestCider = new PurchaseRequest("사이다",10);
+            PurchaseRequest requestCider = new PurchaseRequest("사이다",10,PromotionState.APPLIED);
             Receipt receiptCider = storeModel.buyProduct(requestCider);
             assertThat(receiptCider.getDisCountPrice()).isEqualTo(0);
 

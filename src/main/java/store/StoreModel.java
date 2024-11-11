@@ -256,10 +256,30 @@ public class StoreModel {
     public List<PromotionResult> checkPromotionAvailable(List<PurchaseRequest> purchaseRequests){
         List<PromotionResult> promotionResults = new ArrayList<>();
         for(PurchaseRequest request : purchaseRequests){
-            promotionResults.add(checkProductPromotionAvailable(request.getProductName(),request.getCountPurchased()));
+            promotionResults.addAll(checkPromotionBoth(request.getProductName(),request.getCountPurchased()));
         }
 
         return promotionResults;
+    }
+
+    public List<PromotionResult> checkPromotionBoth(String productName , int buyCount){
+        PromotionResult resultPromotion = checkProductPromotionAvailable(productName,buyCount);
+        PromotionResult resultNonPromotion = null;
+
+        Product product = findProductNonPromoted(productName);
+        if(findProductPromoted(productName) == NOT_FOUND){
+            resultNonPromotion = PromotionResult.createNoPromotion(productName,buyCount);
+            return List.of(resultNonPromotion);
+        }
+
+        if(resultPromotion.getState()==PromotionState.INSUFFICIENT
+        && resultPromotion.getTotalItemCount() < buyCount){
+            int remainCountToBuy = buyCount - resultPromotion.getTotalItemCount();
+            resultNonPromotion = PromotionResult.createNoPromotion(productName,remainCountToBuy);
+            return List.of(resultPromotion, resultNonPromotion);
+        }
+
+        return List.of(resultPromotion);
     }
 
     public PromotionResult checkProductPromotionAvailable(String productName, int buyCount){
@@ -270,8 +290,11 @@ public class StoreModel {
         if(product.isEnoughToBuy(buyCount)){
             return product.estimatePromotionResult(buyCount, DateTimes.now());
         }
-        PromotionResult result = product.estimatePromotionResult(product.calculateMaxCountToBuy(buyCount),DateTimes.now());
-        return result.transitState(PromotionState.INSUFFICIENT);
+
+        int maxCountToBuyPromotion = product.calculateMaxCountToBuy(buyCount);
+        PromotionResult promotionResult = product.estimatePromotionResult(maxCountToBuyPromotion,DateTimes.now());
+        return promotionResult.transitState(PromotionState.INSUFFICIENT);
+
     }
 
     public List<Receipt> buyProducts(List<PurchaseRequest> purchaseRequests){
@@ -283,6 +306,10 @@ public class StoreModel {
     }
 
     public Receipt buyProduct(PurchaseRequest request){
+
+        if(request.getPromotionState() == PromotionState.NO_PROMOTION){
+            return tryBuyProductNonPromoted(request);
+        }
 
         Receipt resultPromoted = tryBuyProductPromoted(request);
         Receipt resultNonPromoted = tryBuyProductNonPromoted(request);

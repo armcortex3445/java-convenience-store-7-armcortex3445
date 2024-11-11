@@ -50,18 +50,20 @@ public class StoreInputView {
         if(promotionResult.getState().equals(PromotionState.INSUFFICIENT)){
             return readPromotionInsufficient(promotionResult);
         }
-        return new PurchaseRequest(promotionResult.getProductName(),promotionResult.getTotalItemCount());
+        return new PurchaseRequest(promotionResult.getProductName(),promotionResult.getTotalItemCount(),promotionResult.getState());
     }
 
     public PurchaseRequest readPromotionInsufficient(PromotionResult promotionResult){
-        PurchaseRequest newRequest = new PurchaseRequest(promotionResult.getProductName(),promotionResult.getTotalItemCount());
+        PurchaseRequest newRequest = null;
         String answer =readAnswerPromotionInSufficient(promotionResult);
 
         if(answer.equals(StoreViewMessage.ANSWER_NO)){
+            newRequest = new PurchaseRequest(promotionResult.getProductName(),promotionResult.getTotalItemCount(),promotionResult.getState());
             newRequest.decreaseCount(promotionResult.getNonPromotedCount());
+            return newRequest;
         }
 
-        return newRequest;
+        return new PurchaseRequest(promotionResult.getProductName(),promotionResult.getTotalItemCount(),PromotionState.APPLIED);
     }
 
     public boolean readAnswerContinuePurchase(){
@@ -90,7 +92,7 @@ public class StoreInputView {
 
 
     public PurchaseRequest readPromotionEnableProduct(PromotionResult promotionResult){
-        PurchaseRequest newRequest = new PurchaseRequest(promotionResult.getProductName(),promotionResult.getTotalItemCount());
+        PurchaseRequest newRequest = new PurchaseRequest(promotionResult.getProductName(),promotionResult.getTotalItemCount(),PromotionState.APPLIED);
         for(int tryCount = 0; tryCount < promotionResult.getOmittedItemCount(); tryCount++){
             String answer = readAnswerPromotionEnable(promotionResult);
             newRequest.tryToIncrease(answer.equals(StoreViewMessage.ANSWER_YES));
@@ -130,18 +132,10 @@ public class StoreInputView {
             List<String> elements = extractElementsFromPurchase(purchase);
             int nameIdx = 0;
             int countIdx = 1;
-            return new PurchaseRequest(elements.get(nameIdx), Transformer.parsePositiveInt(elements.get(countIdx)));
+            return new PurchaseRequest(elements.get(nameIdx), Transformer.parsePositiveInt(elements.get(countIdx)),PromotionState.NONE);
         }).toList();
     }
 
-    public PurchaseRequest createPurchaseRequest(String answer , String productName, int count){
-        validateAnswer(answer);
-        if(answer.equals(StoreViewMessage.ANSWER_NO)){
-            int noBuy = 0;
-            return new PurchaseRequest(productName,noBuy);
-        }
-        return new PurchaseRequest(productName,count);
-    }
 
     static public void validatePurchaseList(String purchaseList){
         Validator.validateBlankString(purchaseList);
