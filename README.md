@@ -48,6 +48,7 @@
 - [x] estimate result when promotion is applied to products
 - [ ] calculate membership discount
 - [x] validate name format
+- [ ] validate purchase request whether request is valid
 
 ## Load logic
 - [x] read src/main/resources/products.md file

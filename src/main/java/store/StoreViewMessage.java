@@ -12,9 +12,11 @@ public enum StoreViewMessage {
     RECEIPT_HEAD_ACCOUNT("===================================="),
     RETRY_PURCHASE("감사합니다. 구매하고 싶은 다른 상품이 있나요? (Y/N)"),
 
-    ERROR_INVALID_FORMAT("[ERROR] 올바르지 않은 형식으로 입력했습니다. 다시 입력해 주세요.");
+    ERROR_INVALID_FORMAT("[ERROR] 올바르지 않은 형식으로 입력했습니다. 다시 입력해 주세요."),
 
-
+    ERROR_NOT_EXIST_PRODUCT("[ERROR] 존재하지 않는 상품입니다. 다시 입력해 주세요."),
+    ERROR_OVERFLOW_PURCHASE("[ERROR] 재고 수량을 초과하여 구매할 수 없습니다. 다시 입력해 주세요."),
+    ERROR_NO_COUNT_PRODUCT("[ERROR] 재고가 없는 상품입니다. 다시 입력해 주세요.");
 
     private final String message;
 
