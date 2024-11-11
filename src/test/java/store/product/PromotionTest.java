@@ -94,9 +94,9 @@ public class PromotionTest {
 
         int count1 = 4;
         PromotionResult result1 = promotion.estimate("상품명",count1);
-        assertThat(result1.getState()).isEqualTo(PromotionState.OMISSION);
+        assertThat(result1.getState()).as("무료 증정 조건을 만족하지 못하므로, APPLIED 상태가 된다").isEqualTo(PromotionState.APPLIED);
         assertThat(result1.getAppliedItemCount()).isEqualTo(1);
-        assertThat(result1.getOmittedItemCount()).isEqualTo(2);
+        assertThat(result1.getOmittedItemCount()).isEqualTo(0);
 
         assertThat(promotion.estimate("상품명",3).getState()).isEqualTo(PromotionState.APPLIED);
     }
@@ -109,13 +109,13 @@ public class PromotionTest {
         LocalDateTime end = LocalDateTime.of(2024,12,31,23,59);
         Promotion promotion = new Promotion("2+1 할인",start,end,conditionCount);
 
-        PromotionResult promotionResult = promotion.estimate("상품명",10);
+        PromotionResult promotionResult = promotion.estimate("상품명",11);
         assertThat(promotionResult.getState())
                 .as("프로모션 적용보다 물건을 덜 가져오면, 물건이 더 필요한 상태임을 나타낸다.")
                 .isEqualTo(PromotionState.OMISSION);
         assertThat(promotionResult.getOmittedItemCount())
                 .as("프로모션 적용보다 물건을 덜 가져오면, 프로모션 적용을 위해 필요한 물건 개수를 나타낸다")
-                .isEqualTo(2);
+                .isEqualTo(1);
 
         promotionResult = promotion.estimate("상품명",6);
         assertThat(promotionResult.getState())
