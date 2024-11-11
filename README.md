@@ -80,6 +80,12 @@
 - [ ] print purchase product list
 - [ ] print promotion return product list
 - [ ] print bill 
+
+## Controller
+### Store Controller
+- [ ] run app
+- [ ] control View and Logic(Service logic)
+
 ## Promotion related
 
 - [x] Promotion is able to applied whether today is on event days.
