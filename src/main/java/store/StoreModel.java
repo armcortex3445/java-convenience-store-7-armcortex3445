@@ -189,6 +189,13 @@ public class StoreModel {
         return promotions;
     }
 
+    /*TODO
+    *    - checkPromotionAvailable() 이후 다시 반환된 PurchaseRequest를 병합해야한다.
+    *       - 사전에 입력된 PurchaseRequest를 캐시에 저장
+    *       - 반환된 PromotionResult의 상태가 NEED_MORE의 정보를 따로 저장해서, 반환된 결과와 비교후 기존 PurchaseRequest와 병합필요.
+    *       - 좀더 쉬운 방법이 있다면 고민해보길.
+    * */
+
     public List<PromotionResult> checkPromotionAvailable(List<PurchaseRequest> purchaseRequests){
         List<PromotionResult> promotionResults = new ArrayList<>();
         for(PurchaseRequest request : purchaseRequests){
@@ -219,6 +226,13 @@ public class StoreModel {
     }
 
     public Receipt buyProduct(PurchaseRequest request){
+        /*TODO
+        *   - 등록되지 않은 상품을 사는 지 점검 필요
+        *       - 등록되지 않는 상품을 사는 경우, inputView에서 다시 입력을 받아야함.
+        *       - 상품 구매 과정은 다음 과정을 따르므로, 구매 물품 프로모션 점검에서 등록되지 않은 상품 구매를 점검할필요있음.
+        *           혹은 점검 로직을 추가할것
+        *           구매 물품입력 -> (물품 존재 확인)-> 구매 물품 프로모션 점검 -> 물품 구매
+        * */
         Receipt resultPromoted = tryBuyProductPromoted(request);
         Receipt resultNonPromoted = tryBuyProductNonPromoted(request);
 
