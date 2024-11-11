@@ -81,12 +81,23 @@ public class Validator {
            }
 
    }
+
    public static void validatePositiveNumericString(String rawNumber){
         Validator.validateBlankString(rawNumber);
         Validator.validateNumericString(rawNumber);
         Validator.validateIntRange(rawNumber);
         int number = Integer.parseInt(rawNumber);
         Validator.validatePositiveNumber(number);
+    }
+
+    public static void validateNonNegativeNumericString(String rawNumber){
+        Validator.validateBlankString(rawNumber);
+        Validator.validateNumericString(rawNumber);
+        Validator.validateIntRange(rawNumber);
+        int number = Integer.parseInt(rawNumber);
+        if(number < 0){
+            ExceptionFactory.throwIllegalArgumentException(ExceptionType.NEGATIVE_NUMBER);
+        }
     }
 
     public static void validateFile(String filePath){

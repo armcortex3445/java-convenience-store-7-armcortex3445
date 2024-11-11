@@ -121,6 +121,7 @@
     - [x] validate string whether string is numeric or not
     - [x] validate string whether numeric string is out of Int type range or not
     - [x] validate string whether numeric string is positive or not
+    - [ ] validate string whether number string is non-negative or not
     - [x] validate string whether string is blank or not
     - [x] validate number whether number is divisible by specific number or not
     - [x] validate number whether number is out of specific range or not
