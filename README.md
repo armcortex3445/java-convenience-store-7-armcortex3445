@@ -34,6 +34,12 @@
 - [ ] represent simulated result when promotion is applied
 - [ ] provide simulated purchase info
 
+### PurchaseRequest
+- [ ] represent request for purchase
+- [ ] access request info
+- [ ] provide modifying request info 
+   - [ ] decrease buy count
+
 ## Store Logic
 - [ ] find product by name with options that find promoted or non-promoted or both
 - [ ] access product data of repository by finding product
