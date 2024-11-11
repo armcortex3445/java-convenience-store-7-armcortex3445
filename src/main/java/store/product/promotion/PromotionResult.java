@@ -62,9 +62,9 @@ public class PromotionResult {
         return new PromotionResult(newState,totalItemCount,appliedItemCount,omittedItemCount,productName);
     }
 
-    static public PromotionResult createNoPromotion(String productName){
+    static public PromotionResult createNoPromotion(String productName,int totalItemCount){
         final int zero = 0;
-        return new PromotionResult(PromotionState.NO_PROMOTION,zero,zero,zero,productName);
+        return new PromotionResult(PromotionState.NO_PROMOTION,totalItemCount,zero,zero,productName);
     }
 
 

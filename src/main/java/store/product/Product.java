@@ -139,7 +139,7 @@ public class Product implements Cloneable{
             return this.promotion.estimate(name,count);
         }
 
-        return PromotionResult.createNoPromotion(name);
+        return PromotionResult.createNoPromotion(name,count);
     }
 
     public int calculateMaxCountToBuy(int buyCount){

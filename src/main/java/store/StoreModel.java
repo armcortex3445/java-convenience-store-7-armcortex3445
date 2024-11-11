@@ -244,7 +244,7 @@ public class StoreModel {
     public PromotionResult checkProductPromotionAvailable(String productName, int buyCount){
         Product product = findProductPromoted(productName);
         if(findProductPromoted(productName) == NOT_FOUND){
-            return PromotionResult.createNoPromotion(productName);
+            return PromotionResult.createNoPromotion(productName,buyCount);
         }
         if(product.isEnoughToBuy(buyCount)){
             return product.estimatePromotionResult(buyCount, DateTimes.now());
