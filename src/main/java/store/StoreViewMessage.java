@@ -52,12 +52,12 @@ public enum StoreViewMessage {
     }
 
     public static void printProduct(String ProductName, int price, int count, String promotionName){
-        final String format = "%s %,d원 %d개 %s\n";
+        final String format = "- %s %,d원 %d개 %s\n";
         System.out.printf(format,ProductName,price,count,promotionName);
     }
 
     public static void printInsufficientProduct(String ProductName, int price, String promotionName){
-        final String format = "%s %,d원 재고 없음 %s\n";
+        final String format = "- %s %,d원 재고 없음 %s\n";
         System.out.printf(format,ProductName,price,promotionName);
     }
 
