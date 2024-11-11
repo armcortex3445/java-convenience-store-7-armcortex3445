@@ -15,6 +15,7 @@ public enum ExceptionType {
     //STRING related
     EMPTY_STRING("string is empty"),
     DISABLE_ENCODED_TO_UTF8("string is not able to be encoded by utf 8"),
+    INVALID_INPUT_STRING_FORMAT("input string format is invalid"),
 
     //Model
     INTERNAL_ERROR("Internal logic error"),
