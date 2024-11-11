@@ -148,3 +148,4 @@
    - [ ] transform Integer List to concatenated String
    - [ ] transform string to LocalDate/LocalDateTime
    - [ ] transform List<String> to String by concatenating list
+   - [ ] transform integer to String with a thousand separated

@@ -67,4 +67,8 @@ public class Transformer {
             throw new RuntimeException();
         }
     }
+
+    static public String transformToThousandSeparated(int number){
+        return String.format("%,d", number);
+    }
 }
