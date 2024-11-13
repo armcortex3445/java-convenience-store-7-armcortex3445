@@ -61,6 +61,33 @@ class ApplicationTest extends NsTest {
         });
     }
 
+    @Test
+    void 예외_테스트_없는물건_구매() {
+        assertSimpleTest(() -> {
+            runException("[erase-12]", "N", "N");
+            assertThat(output()).contains("[ERROR] 존재하지 않는 상품입니다. 다시 입력해 주세요.");
+        });
+    }
+
+    @Test
+    void 프로모션제품_수량부족() {
+
+        assertNowTest(() -> {
+            runException("[사이다-8]", "N", "Y","N");
+            assertThat(output().replaceAll("\\s", "")).contains("행사할인-2,000");
+        }, LocalDate.of(2024, 2, 1).atStartOfDay());
+    }
+
+    @Test
+    void 프로모션제품_수량부족_연속구매() {
+
+        assertNowTest(() -> {
+            runException("[사이다-8]", "N", "Y","Y","[사이다-8]", "N", "N","Y");
+            assertThat(output().replaceAll("\\s", "")).contains("행사할인-2,000","내실돈6,000","-사이다1,000원1개");
+        }, LocalDate.of(2024, 2, 1).atStartOfDay());
+    }
+
+
     @Override
     public void runMain() {
         Application.main(new String[]{});
